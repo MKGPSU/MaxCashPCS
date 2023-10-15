@@ -5,14 +5,13 @@
         <style>
             body {
                 background-color: green;
-                background-color: green;
                 display: flex;
                 flex-direction: column;
                 justify-content: center;
                 align-items: center;
                 height: 100vh;
             }
-            #budgetAmount {
+            #budgetAmount, #perDiemRate, #spentAmount {
                 border: 1px solid black;
             }
             h1, p, input, button, span {
@@ -20,59 +19,65 @@
             }
         </style>
     </head>
-    <body>
+<body>
         <h1>Per Diem</h1>
-        <p>Enter Total Milage To Destination:</p>
-        <input type="number" id="budgetAmount" onchange="updateRemainingBudget()">
-        <p>Enter the amount of money you have spent:</p>
-        <input type="number" id="spentAmount">
+		<p>Enter Per Diem Rate:</p>
+        <input type="number" id="perDiemRate" onchange="updateRemainingBudget()">
+        <p>Enter Total Expenses:</p>
+		<input type="number" id="spentAmount" onchange="updateRemainingBudget()">
         <button onclick="addExpense()">Add Expense</button>
-		<button onclick="removeExpense()">Remove Expense</button>
+        <button onclick="removeExpense()">Remove Expense</button>
         <p>Your total expenses: $<span id="totalExpenses">0</span></p>
         <p>Your remaining budget: $<span id="remainingBudget">0</span></p>
         
-		
-		
-		
-		<p>***Prices calculated aligns with GSA guidance for Personally Operated Vechical for Permanant Change of Station***</p>
-		<button id="backButton" onclick="goBack()">Back</button>
-        <script>
-            function goBack() {
-                window.history.back();
+        <p>***Prices calculated aligns with GSA guidance for Personally Operated Vechical for Permanant Change of Station***</p>
+        <button id="backButton" onclick="goToHomePage()">Back</button>
+        
+	<script>
+            function goToHomePage() {
+                window.location.href = "Homepage.html";
             }
-        </script>
-
-        <script>
-            let totalExpenses = 0;
-            let remainingBudget = 0;
-            const totalExpensesElement = document.getElementById("totalExpenses");
-            const remainingBudgetElement = document.getElementById("remainingBudget");
-            const budgetAmountElement = document.getElementById("budgetAmount");
-
-            function updateRemainingBudget() {
-                const budgetAmount = budgetAmountElement.value;
-                remainingBudget = multiplyByPoint655(budgetAmount) - totalExpenses;
-                remainingBudgetElement.innerText = remainingBudget;
-            }
-
+            
             function addExpense() {
-                const spentAmount = document.getElementById("spentAmount").value;
-                totalExpenses += Number(spentAmount);
-                totalExpensesElement.innerText = totalExpenses;
-                updateRemainingBudget();
+                const spentAmount = document.getElementById("spentAmount");
+                const totalExpenses = document.getElementById("totalExpenses");
+                const remainingBudget = document.getElementById("remainingBudget");
+                
+                const expense = Number(spentAmount.value);
+                const total = Number(totalExpenses.textContent);
+                const remaining = Number(remainingBudget.textContent);
+                
+                totalExpenses.textContent = total + expense;
+                remainingBudget.textContent = remaining - expense;
+                
+                spentAmount.value = "";
             }
-
+            
             function removeExpense() {
-                const spentAmount = document.getElementById("spentAmount").value;
-                totalExpenses -= Number(spentAmount);
-                totalExpensesElement.innerText = totalExpenses;
-                updateRemainingBudget();
+                const spentAmount = document.getElementById("spentAmount");
+                const totalExpenses = document.getElementById("totalExpenses");
+                const remainingBudget = document.getElementById("remainingBudget");
+                
+                const expense = Number(spentAmount.value);
+                const total = Number(totalExpenses.textContent);
+                const remaining = Number(remainingBudget.textContent);
+                
+                totalExpenses.textContent = total - expense;
+                remainingBudget.textContent = remaining + expense;
+                
+                spentAmount.value = "";
             }
-
-            function multiplyByPoint655(inputNumber) {
-                return inputNumber * 0.655;
+            
+            function updateRemainingBudget() {
+                const perDiemRate = document.getElementById("perDiemRate");
+                const totalExpenses = document.getElementById("totalExpenses");
+                const remainingBudget = document.getElementById("remainingBudget");
+                
+                const perDiem = Number(perDiemRate.value);
+                const total = Number(totalExpenses.textContent);
+                
+                remainingBudget.textContent = perDiem - total;
             }
-			
         </script>
-    </body>
+</body>
 </html>

@@ -5,48 +5,52 @@
 <title>MaxCashPCS Home Page </title>
 </head>
 	<style>
-		body {
-			display: flex;
-			flex-direction: column;
-			justify-content:center;
-			align-items: center;
-			height: 100vh;
-                	background-color:darkgreen;	
-           	}
-           	header {
-			border-style:solid;
-			border-color: black;
-                	background-color: white;
-                	padding: 5px;
-			width: inherit;
-			position: relative;
-			top: -45px;	
-            	}
-            	.circle {
-			width: 200px;
-  			height: 200px;
-			border-radius: 50%;
-			display: vertical;
-			margin-right: 20px;
-			border-style: solid;
-			border-color: black;
-            	}
-		.circle1 {
-			background: conic-gradient(from 0deg at 50% 50%, green 0deg 35%, yellow 0deg 70%, red 0deg 100%);
-			position: relative;
-			top: -40px;
-            	}
-            	.circle2 {
-                	background: conic-gradient(from 0deg at 50% 50%, green 0deg 35%, yellow 0deg 70%, red 0deg 100%);
-			position: relative;
-			top: -30px;
-            	}
-            	.circle3 {
-                	background: conic-gradient(from 0deg at 50% 50%, green 0deg 35%, yellow 0deg 70%, red 0deg 100%);
-			position: relative;
-			top: -20px;
-            	}
-		.inner-circle1 {
+		 body {
+				display: flex;
+			 	flex-direction: column;
+			 	justify-content:center;
+			 	align-items: center;
+			 	height: 100vh;
+                background-color:darkgreen;
+				
+            }
+            header {
+				border-style:solid;
+				border-color: black;
+                background-color: white;
+                padding: 5px;
+				width: inherit;
+				position: relative;
+				top: -45px;
+				
+            }
+            .circle {
+				  width: 200px;
+  				  height: 200px;
+				  border-radius: 50%;
+				  display: vertical;
+				  margin-right: 20px;
+				  border-style: solid;
+				  border-color: black;
+
+            }
+              .circle1{
+				  background: conic-gradient(from 0deg at 50% 50%, green 0deg 35%, yellow 0deg 70%, red 0deg 100%);
+				  position: relative;
+				  top: -40px;
+            }
+            .circle2 {
+                background: conic-gradient(from 0deg at 50% 50%, green 0deg 35%, yellow 0deg 70%, red 0deg 100%);
+				position: relative;
+				top: -30px;
+            }
+            .circle3 {
+                background: conic-gradient(from 0deg at 50% 50%, green 0deg 35%, yellow 0deg 70%, red 0deg 100%);
+				position: relative;
+				top: -20px;
+            }
+
+			.inner-circle1 {
         		width: 100px;
         		height: 100px;
         		border-radius: 50%;
@@ -55,19 +59,20 @@
         		top: 50%;
         		left: 50%;
         		transform: translate(-50%, -50%);
-			display: flex;
+				display: flex;
         		justify-content: center;
         		align-items: center;
         		font-size: 24px;
         		font-weight: bold;
       		}
-		.inner-circle1 button {
-  			background-color: transparent;
-  			border: none;
-  			cursor: pointer;
-  			font-size: 24px;
-  			font-weight: bold;
-		}
+			.inner-circle1 button {
+  				background-color: transparent;
+  				border: none;
+  				cursor: pointer;
+  				font-size: 24px;
+  				font-weight: bold;
+			}
+      
       		.inner-circle2 {
         		width: 100px;
         		height: 100px;
@@ -77,19 +82,19 @@
      			top: 50%;
         		left: 50%;
         		transform: translate(-50%, -50%);
-			display: flex;
+				display: flex;
         		justify-content: center;
         		align-items: center;
         		font-size: 24px;
         		font-weight: bold;
       		}
-		.inner-circle2 button {
-  			background-color: transparent;
-  			border: none;
-  			cursor: pointer;
-  			font-size: 24px;
-  			font-weight: bold;
-		}
+			.inner-circle2 button {
+  				background-color: transparent;
+  				border: none;
+  				cursor: pointer;
+  				font-size: 24px;
+  				font-weight: bold;
+			}
       
       		.inner-circle3 {
         		width: 100px;
@@ -100,49 +105,155 @@
         		top: 50%;
         		left: 50%;
         		transform: translate(-50%, -50%);
-			display: flex;
+				display: flex;
         		justify-content: center;
         		align-items: center;
         		font-size: 24px;
         		font-weight: bold;
       		}
-		.inner-circle3 button {
-  			background-color: transparent;
-  			border: none;
-  			cursor: pointer;
-  			font-size: 24px;
-  			font-weight: bold;
-		}
+			.inner-circle3 button {
+  				background-color: transparent;
+  				border: none;
+  				cursor: pointer;
+  				font-size: 24px;
+  				font-weight: bold;
+			}
+			
+			.chart {
+    			position: relative;
+    			width: 200px;
+    			height: 200px;
+    			border-radius: 50%;
+    			overflow: hidden;
+  			}
+  
+  			.chart .slice {
+    			position: absolute;
+    			top: 0;
+    			left: 0;
+    			width: 100%;
+    			height: 100%;
+    			border-radius: 50%;
+    			clip-path: polygon(50% 50%, 0% 0%, 0% 100%);
+    			transform-origin: center;
+  			}
+  
+  			.chart .fill {
+    			position: absolute;
+    			top: 0;
+    			left: 0;
+    			width: 100%;
+    			height: 100%;
+    			border-radius: 50%;
+    			background-color: black;
+    			clip-path: polygon(50% 50%, 0% 95%, 0% 100%);
+    			transform-origin: center;
+    			transform: rotate(var(--rotation));
+  			}
+  
+  			.chart .value {
+    			position: absolute;
+    			top: 50%;
+    			left: 50%;
+    			transform: translate(-50%, -50%);
+    			font-size: 24px;
+    			font-weight: bold;
+    			color: var(--color);
+  			}
+	
 	</style>
+
 <header>
-        <h1>MaxCashPCS</h1>
-</header>
+            <h1>MaxCashPCS</h1>
+        </header>
+	
         <div class="circle circle1">
-		<div class="inner-circle1">
-			<button onclick="goToGasPage()">Gas</button>
+  			<div class="chart chart1" style="--rotation: calc((var(--percentage) / 100) * 360deg); --color: #5cb85c;">
+    			<div class="slice"></div>
+    			<div class="fill fill1"></div>
+    			<span class="value value1">37%</span>
+  			</div>
+				<div class="inner-circle1">
+					<button onclick="goToGasPage()">Gas</button>
+				</div>
 		</div>
-	</div>
+	
+  		<script>
+    		const chart1 = document.querySelector(".chart1");
+    		const fill1 = chart1.querySelector(".fill1");
+    		const value1 = chart1.querySelector(".value1");
+    
+    	function setChartValue1(percent) {
+      		const rotation = percent / 100 * 360;
+      		fill1.style.setProperty("--rotation", `${rotation}deg`);
+      		value1.textContent = `${percent}%`;
+    	}
+    
+    	setChartValue1(25);
+  		</script>
+	
         <div class="circle circle2">
-		<div class="inner-circle2">
-			<button onclick="goToPerDiemPage()">Per Diem</button>
+  			<div class="chart chart2" style="--rotation: calc((var(--percentage) / 100) * 360deg); --color: #5cb85c;">
+    			<div class="slice"></div>
+    			<div class="fill fill2"></div>
+    			<span class="value value2">90%</span>
+  			</div>
+				<div class="inner-circle2">
+					<button onclick="goToPerDiemPage()">Per Diem</button>
+				</div>
 		</div>
-	</div>
-	<div class="circle circle3">
-		<div class="inner-circle3">
-			<button onclick="goToLodgingPage()">Lodging</button>
+	
+  		<script>
+    		const chart2 = document.querySelector(".chart2");
+    		const fill2 = chart2.querySelector(".fill2");
+    		const value2 = chart2.querySelector(".value2");
+    
+    	function setChartValue2(percent) {
+      		const rotation = percent / 100 * 360;
+      		fill2.style.setProperty("--rotation", `${rotation}deg`);
+      		value2.textContent = `${percent}%`;
+		}
+    
+    	setChartValue2(50);
+  		</script>
+	
+		<div class="circle circle3">
+  			<div class="chart chart3" style="--rotation: calc((var(--percentage) / 100) * 360deg); --color: #5cb85c;">
+    			<div class="slice"></div>
+    			<div class="fill fill3"></div>
+    			<span class="value value3">67%</span>
+  			</div>
+				<div class="inner-circle3">
+					<button onclick="goToLodgingPage()">Lodging</button>
+				</div>
 		</div>
-	</div>
-<script>
-        function goToGasPage() {
+	
+  		<script>
+    		const chart3 = document.querySelector(".chart3");
+    		const fill3 = chart3.querySelector(".fill3");
+    		const value3 = chart3.querySelector(".value3");
+    
+    	function setChartValue3(percent) {
+      		const rotation = percent / 100 * 360;
+      		fill3.style.setProperty("--rotation", `${rotation}deg`);
+      		value3.textContent = `${percent}%`;
+		}
+    
+    setChartValue3(75);
+  </script>
+	
+		<script>
+            function goToGasPage() {
                 window.location.href = "gas.html";
-        }
-	function goToPerDiemPage() {
-		window.location.href = "perDiem.html";
-	}
-	function goToLodgingPage() {
-		window.location.href = "lodging.html";
-	}
-</script>
+            }
+			function goToPerDiemPage() {
+				window.location.href = "perDiem.html";
+			}
+			function goToLodgingPage() {
+				window.location.href = "lodging.html";
+			}
+        </script>
+	
 <body>
 </body>
 </html>
