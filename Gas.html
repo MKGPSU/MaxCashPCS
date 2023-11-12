@@ -28,6 +28,7 @@
         <input type="number" id="spentAmount">
         <button onclick="addExpense()">Add Expense</button>
 		<button onclick="removeExpense()">Remove Expense</button>
+		<button onclick="clearData()">Clear</button>
         <p>Your total expenses: $<span id="totalExpenses">0</span></p>
         <p>Your remaining budget: $<span id="remainingBudget">0</span></p>
         
@@ -35,7 +36,7 @@
 		
 		
 		<p>***Prices calculated aligns with GSA guidance for Personally Operated Vechical for Permanant Change of Station***</p>
-        <button id="backButton" onclick="goToHomePage()">Back</button>
+        <button id="backButton" onclick="goToHomePage()">Home</button>
         <script>
             function goToHomePage() {
                 window.location.href = "Homepage.html";
@@ -43,8 +44,6 @@
         </script>
         
         <script> 
-            let totalExpenses = 0;
-            let remainingBudget = 0;
             const totalExpensesElement = document.getElementById("totalExpenses");
             const remainingBudgetElement = document.getElementById("remainingBudget");
             const budgetAmountElement = document.getElementById("budgetAmount");
@@ -53,12 +52,14 @@
                 const budgetAmount = budgetAmountElement.value;
                 remainingBudget = multiplyByPoint655(budgetAmount) - totalExpenses;
                 remainingBudgetElement.innerText = remainingBudget;
+				localStorage.setItem('remainingBudget', remainingBudget);
             }
 
             function addExpense() {
                 const spentAmount = document.getElementById("spentAmount").value;
                 totalExpenses += Number(spentAmount);
                 totalExpensesElement.innerText = totalExpenses;
+				localStorage.setItem('totalExpenses', totalExpenses);
                 updateRemainingBudget();
             }
 
@@ -66,12 +67,33 @@
                 const spentAmount = document.getElementById("spentAmount").value;
                 totalExpenses -= Number(spentAmount);
                 totalExpensesElement.innerText = totalExpenses;
+				Number(localStorage.setItem('totalExpenses', totalExpenses));
                 updateRemainingBudget();
             }
 
-            function multiplyByPoint655(inputNumber) {
-                return inputNumber * 0.655;
-            }
+			function multiplyByPoint655(inputNumber) {
+    			const result = inputNumber * 0.655;
+				return result;
+    			Number(localStorage.setItem('multiplicationResult', result));
+			}
+			
+			window.onload = function() {
+    			totalExpenses = Number(localStorage.getItem('totalExpenses')) || 0;
+    			remainingBudget = Number(localStorage.getItem('remainingBudget')) || 0;
+    			totalExpensesElement.innerText = totalExpenses;
+    			remainingBudgetElement.innerText = remainingBudget;
+			}
+			
+			function clearData() {
+				if (confirm('Are you sure you want to clear all data?')) {
+        		totalExpenses = 0;
+        		remainingBudget = 0;
+				totalExpensesElement.innerText = totalExpenses;
+        		remainingBudgetElement.innerText = remainingBudget;
+        		localStorage.removeItem('totalExpenses');
+        		localStorage.removeItem('remainingBudget');
+    			}
+			}
         
 			
         </script>

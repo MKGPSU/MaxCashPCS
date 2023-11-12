@@ -27,11 +27,10 @@
         <input type="number" id="spentAmount" onchange="updateRemainingBudget()">
         <button onclick="addExpense()">Add Expense</button>
         <button onclick="removeExpense()">Remove Expense</button>
-        <p>Your total expenses: $<span id="totalExpenses">0</span></p>
-        <p>Your remaining budget: $<span id="remainingBudget">0</span></p>
-        
-        <p>***Prices calculated aligns with GSA guidance for Personally Operated Vechical for Permanant Change of Station***</p>
-        <button id="backButton" onclick="goToHomePage()">Back</button>
+		<button onclick="clearData()">Clear</button>
+        <p>Your total expenses: $<span id="totalExpensesL">0</span></p>
+        <p>Your remaining budget: $<span id="remainingBudgetL">0</span></p>
+        <button id="backButton" onclick="goToHomePage()">Home</button>
         
         <script>
             function goToHomePage() {
@@ -40,8 +39,8 @@
             
             function addExpense() {
                 const spentAmount = document.getElementById("spentAmount");
-                const totalExpenses = document.getElementById("totalExpenses");
-                const remainingBudget = document.getElementById("remainingBudget");
+                const totalExpenses = document.getElementById("totalExpensesL");
+                const remainingBudget = document.getElementById("remainingBudgetL");
                 
                 const expense = Number(spentAmount.value);
                 const total = Number(totalExpenses.textContent);
@@ -55,8 +54,8 @@
             
             function removeExpense() {
                 const spentAmount = document.getElementById("spentAmount");
-                const totalExpenses = document.getElementById("totalExpenses");
-                const remainingBudget = document.getElementById("remainingBudget");
+                const totalExpenses = document.getElementById("totalExpensesL");
+                const remainingBudget = document.getElementById("remainingBudgetL");
                 
                 const expense = Number(spentAmount.value);
                 const total = Number(totalExpenses.textContent);
@@ -70,14 +69,30 @@
             
             function updateRemainingBudget() {
                 const lodgingRate = document.getElementById("lodgingRate");
-                const totalExpenses = document.getElementById("totalExpenses");
-                const remainingBudget = document.getElementById("remainingBudget");
+                const totalExpenses = document.getElementById("totalExpensesL");
+                const remainingBudget = document.getElementById("remainingBudgetL");
                 
                 const rate = Number(lodgingRate.value);
                 const total = Number(totalExpenses.textContent);
                 
                 remainingBudget.textContent = rate - total;
             }
+			
+			window.onload = function() {
+    			totalExpenses = Number(localStorage.getItem('totalExpensesL')) || 0;
+    			remainingBudget = Number(localStorage.getItem('remainingBudgetL')) || 0;
+    			totalExpensesElement.innerText = totalExpenses;
+    			remainingBudgetElement.innerText = remainingBudget;
+			}
+		
+			function clearData() {
+    			totalExpenses = 0;
+    			remainingBudget = 0;
+    			totalExpensesElement.innerText = totalExpenses;
+    			remainingBudgetElement.innerText = remainingBudget;
+    			localStorage.removeItem('totalExpensesL');
+    			localStorage.removeItem('remainingBudgetL');
+			}
         </script>
     </body>
 </html>

@@ -24,14 +24,13 @@
 		<p>Enter Per Diem Rate:</p>
         <input type="number" id="perDiemRate" onchange="updateRemainingBudget()">
         <p>Enter Total Expenses:</p>
-		<input type="number" id="spentAmount" onchange="updateRemainingBudget()">
+		<input type="number" id="spentAmountPD" onchange="updateRemainingBudget()">
         <button onclick="addExpense()">Add Expense</button>
         <button onclick="removeExpense()">Remove Expense</button>
-        <p>Your total expenses: $<span id="totalExpenses">0</span></p>
-        <p>Your remaining budget: $<span id="remainingBudget">0</span></p>
-        
-        <p>***Prices calculated aligns with GSA guidance for Personally Operated Vechical for Permanant Change of Station***</p>
-        <button id="backButton" onclick="goToHomePage()">Back</button>
+		<button onclick="clearData()">Clear</button>
+        <p>Your total expenses: $<span id="totalExpensesPD">0</span></p>
+        <p>Your remaining budget: $<span id="remainingBudgetPD">0</span></p>
+        <button id="backButton" onclick="goToHomePage()">Home</button>
         
 	<script>
             function goToHomePage() {
@@ -39,9 +38,9 @@
             }
             
             function addExpense() {
-                const spentAmount = document.getElementById("spentAmount");
-                const totalExpenses = document.getElementById("totalExpenses");
-                const remainingBudget = document.getElementById("remainingBudget");
+                const spentAmount = document.getElementById("spentAmountPD");
+                const totalExpenses = document.getElementById("totalExpensesPD");
+                const remainingBudget = document.getElementById("remainingBudgetPD");
                 
                 const expense = Number(spentAmount.value);
                 const total = Number(totalExpenses.textContent);
@@ -51,12 +50,13 @@
                 remainingBudget.textContent = remaining - expense;
                 
                 spentAmount.value = "";
+				localStorage.setItem('totalExpensesPD', totalExpenses);
             }
             
             function removeExpense() {
-                const spentAmount = document.getElementById("spentAmount");
-                const totalExpenses = document.getElementById("totalExpenses");
-                const remainingBudget = document.getElementById("remainingBudget");
+                const spentAmount = document.getElementById("spentAmountPD");
+                const totalExpenses = document.getElementById("totalExpensesPD");
+                const remainingBudget = document.getElementById("remainingBudgetPD");
                 
                 const expense = Number(spentAmount.value);
                 const total = Number(totalExpenses.textContent);
@@ -70,14 +70,33 @@
             
             function updateRemainingBudget() {
                 const perDiemRate = document.getElementById("perDiemRate");
-                const totalExpenses = document.getElementById("totalExpenses");
-                const remainingBudget = document.getElementById("remainingBudget");
+                const totalExpenses = document.getElementById("totalExpensesPD");
+                const remainingBudget = document.getElementById("remainingBudgetPD");
                 
                 const perDiem = Number(perDiemRate.value);
                 const total = Number(totalExpenses.textContent);
                 
                 remainingBudget.textContent = perDiem - total;
+				localStorage.setItem('remainingBudgetPD', remainingBudget);
             }
+		
+			window.onload = function() {
+    			totalExpenses = Number(localStorage.getItem('totalExpensesPD')) || 0;
+    			remainingBudget = Number(localStorage.getItem('remainingBudgetPD')) || 0;
+    			totalExpensesElement.innerText = totalExpenses;
+    			remainingBudgetElement.innerText = remainingBudget;
+			}
+		
+			function clearData() {
+    			totalExpenses = 0;
+    			remainingBudget = 0;
+    			totalExpensesElement.innerText = totalExpenses;
+    			remainingBudgetElement.innerText = remainingBudget;
+    			localStorage.removeItem('totalExpensesPD');
+    			localStorage.removeItem('remainingBudgetPD');
+			}
+		
+		
         </script>
 </body>
 </html>
