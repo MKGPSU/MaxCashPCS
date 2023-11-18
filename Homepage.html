@@ -3,9 +3,8 @@
 <head>
 <meta charset="utf-8">
 <title>MaxCashPCS Home Page </title>
-</head>
-	<style>
-		 body {
+<style>
+			body {
 				display: flex;
 			 	flex-direction: column;
 			 	justify-content:center;
@@ -35,17 +34,17 @@
 
             }
             .circle1{
-				  background: conic-gradient(from 0deg at 50% 50%, green 0deg 35%, yellow 0deg 70%, red 0deg 100%);
+				  background: conic-gradient(from 0deg at 50% 50%, red 0deg 35%, yellow 0deg 70%, green 0deg 100%);
 				  position: relative;
 				  top: -40px;
             }
             .circle2 {
-                background: conic-gradient(from 0deg at 50% 50%, green 0deg 35%, yellow 0deg 70%, red 0deg 100%);
+                background: conic-gradient(from 0deg at 50% 50%, red 0deg 35%, yellow 0deg 70%, green 0deg 100%);
 				position: relative;
 				top: -30px;
             }
             .circle3 {
-                background: conic-gradient(from 0deg at 50% 50%, green 0deg 35%, yellow 0deg 70%, red 0deg 100%);
+                background: conic-gradient(from 0deg at 50% 50%, red 0deg 35%, yellow 0deg 70%, green 0deg 100%);
 				position: relative;
 				top: -20px;
             }
@@ -145,9 +144,8 @@
     			width: 100%;
     			height: 100%;
     			border-radius: 50%;
-    			background-color: black;
-    			clip-path: polygon(50% 50%, 0% 95%, 0% 100%);
-    			transform-origin: center;
+    			background: conic-gradient(black calc(var(--percentage) * 1%), transparent calc(var(--percentage) * 1%));
+				transform-origin: center;
     			transform: rotate(var(--rotation));
   			}
   
@@ -160,15 +158,27 @@
     			font-weight: bold;
     			color: var(--color);
   			}
-	
-	</style>
-
+</style>
+	<script>
+		let percentage1 = Number(localStorage.getItem('remainingBudgetPercentage1'));
+    	let percentage2 = Number(localStorage.getItem('remainingBudgetPercentage2'));
+    	let percentage3 = Number(localStorage.getItem('remainingBudgetPercentage3'));
+		
+		function setChartValue(chart, value) {
+        	const fill = chart.querySelector('.fill');
+        	const valueElement = chart.querySelector('.value');
+        	fill.style.setProperty('--percentage', value);
+        	valueElement.textContent = `${value}%`;
+    	}
+	</script>
+</head>
+<body>
 <header>
-            <h1>MaxCashPCS</h1>
-        </header>
-	
-        <div class="circle circle1">
-  			<div class="chart chart1" style="--rotation: calc((var(--percentage) / 100) * 360deg); --color: #5cb85c;">
+    <h1>MaxCashPCS</h1>
+</header>
+
+<div class="circle circle1">
+    <div class="chart chart1" style="--rotation: calc((var(--percentage1) / 100) * 360deg); --color: #5cb85c; --percentage: var(--percentage1);">
     			<div class="slice"></div>
     			<div class="fill fill1"></div>
     			<span class="value value1">37%</span>
@@ -176,10 +186,10 @@
 				<div class="inner-circle1">
 					<button onclick="goToGasPage()">Gas</button>
 				</div>
-		</div>
-	
-        <div class="circle circle2">
-  			<div class="chart chart2" style="--rotation: calc((var(--percentage) / 100) * 360deg); --color: #5cb85c;">
+</div>
+
+<div class="circle circle2">
+      			<div class="chart chart2" style="--rotation: calc((var(--percentage2) / 100) * 360deg); --color: #5cb85c; --percentage: var(--percentage2);">
     			<div class="slice"></div>
     			<div class="fill fill2"></div>
     			<span class="value value2">90%</span>
@@ -187,10 +197,10 @@
 				<div class="inner-circle2">
 					<button onclick="goToPerDiemPage()">Per Diem</button>
 				</div>
-		</div>
-	
-		<div class="circle circle3">
-  			<div class="chart chart3" style="--rotation: calc((var(--percentage) / 100) * 360deg); --color: #5cb85c;">
+</div>
+
+<div class="circle circle3">
+      			<div class="chart chart3" style="--rotation: calc((var(--percentage3) / 100) * 360deg); --color: #5cb85c; --percentage: var(--percentage3);">
     			<div class="slice"></div>
     			<div class="fill fill3"></div>
     			<span class="value value3">67%</span>
@@ -198,61 +208,17 @@
 				<div class="inner-circle3">
 					<button onclick="goToLodgingPage()">Lodging</button>
 				</div>
-		</div>
-		
-		<button onlick="goToSearchPage()">Search</button>
+</div>
 	
-	  	<script>
-    		const chart1 = document.querySelector(".chart1");
-    		const fill1 = chart1.querySelector(".fill1");
-    		const value1 = chart1.querySelector(".value1");
-    
-		function calculateRemainderPercentage1(num2) {
-    		const num1 = Number(localStorage.getItem('remainingBudget'));
-			const remainder = num1 % num2;
-    		const percentage = ((remainder / num1) * 100) + 37;
-    		Number(localStorage.setItem('remainderPercentage1', percentage));
-		}
+<button onclick="goToSearchPage()">Search</button>
 
-		function setChartValue1(percent) {
-    		const rotation = percent / 100 * 360;
-    		fill1.style.setProperty("--rotation", `${rotation}deg`);
-    		value1.textContent = `${percent}%`;
-		}
-    		console.log('remainderPercentage1 from local storage:', localStorage.getItem('remainderPercentage1'));
-    		calculateRemainderPercentage1(Number(localStorage.getItem('multiplicationResult')));
-			setChartValue1(Number(localStorage.getItem('remainderPercentage1')));
-		</script>
+	<script>
+    	setChartValue(document.querySelector('.chart1'), percentage1);
+    	setChartValue(document.querySelector('.chart2'), percentage2);
+    	setChartValue(document.querySelector('.chart3'), percentage3);
+	</script>
 	
-	  	<script>
-    		const chart2 = document.querySelector(".chart2");
-    		const fill2 = chart2.querySelector(".fill2");
-    		const value2 = chart2.querySelector(".value2");
-    
-    	function setChartValue2(percent) {
-      		const rotation = percent / 100 * 360;
-      		fill2.style.setProperty("--rotation", `${rotation}deg`);
-      		value2.textContent = `${percent}%`;
-		}
-    
-    	setChartValue2(37);
-		</script>
-	
-  		<script>
-    		const chart3 = document.querySelector(".chart3");
-    		const fill3 = chart3.querySelector(".fill3");
-    		const value3 = chart3.querySelector(".value3");
-    
-    	function setChartValue3(percent) {
-      		const rotation = percent / 100 * 360;
-      		fill3.style.setProperty("--rotation", `${rotation}deg`);
-      		value3.textContent = `${percent}%`;
-		}
-    
-    	setChartValue3(37);
-		</script>
-	
-		<script>
+	<script>
             function goToGasPage() {
                 window.location.href = "gas.html";
             }
@@ -265,8 +231,7 @@
 			function goToSearchPage() {
 				window.location.href = "searchpage.html";
 			}
-        </script>
+    </script>
 	
-<body>
 </body>
 </html>

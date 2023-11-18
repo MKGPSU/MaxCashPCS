@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Budget Tracker</title>
+        <title>Gas Budget</title>
         <style>
             body {
                 background-color: green;
@@ -37,6 +37,7 @@
 		
 		<p>***Prices calculated aligns with GSA guidance for Personally Operated Vechical for Permanant Change of Station***</p>
         <button id="backButton" onclick="goToHomePage()">Home</button>
+		
         <script>
             function goToHomePage() {
                 window.location.href = "Homepage.html";
@@ -48,12 +49,15 @@
             const remainingBudgetElement = document.getElementById("remainingBudget");
             const budgetAmountElement = document.getElementById("budgetAmount");
 
-            function updateRemainingBudget() {
-                const budgetAmount = budgetAmountElement.value;
-                remainingBudget = multiplyByPoint655(budgetAmount) - totalExpenses;
-                remainingBudgetElement.innerText = remainingBudget;
-				localStorage.setItem('remainingBudget', remainingBudget);
-            }
+			function updateRemainingBudget() {
+    			const budgetAmount = budgetAmountElement.value;
+    			const originalBudget = multiplyByPoint655(budgetAmount);
+    			const remainingBudget = originalBudget - totalExpenses;
+    			const remainingBudgetPercentage = Math.round((remainingBudget / originalBudget) * 100);
+    			remainingBudgetElement.innerText = `${remainingBudgetPercentage}% ($${remainingBudget} out of $${originalBudget})`;
+    			localStorage.setItem('remainingBudgetPercentage1', remainingBudgetPercentage);
+    			localStorage.setItem('remainingBudget', remainingBudget);
+			}
 
             function addExpense() {
                 const spentAmount = document.getElementById("spentAmount").value;
@@ -73,8 +77,8 @@
 
 			function multiplyByPoint655(inputNumber) {
     			const result = inputNumber * 0.655;
-				return result;
     			Number(localStorage.setItem('multiplicationResult', result));
+				return result;
 			}
 			
 			window.onload = function() {
@@ -82,6 +86,7 @@
     			remainingBudget = Number(localStorage.getItem('remainingBudget')) || 0;
     			totalExpensesElement.innerText = totalExpenses;
     			remainingBudgetElement.innerText = remainingBudget;
+    			budgetAmountElement.value = Number(localStorage.getItem('userInput')) || 0;
 			}
 			
 			function clearData() {
@@ -95,7 +100,18 @@
     			}
 			}
         
-			
         </script>
+		
+		<script>
+    		var inputElement = document.getElementById('budgetAmount');
+    		inputElement.addEventListener('change', function() {
+        	var inputValue = inputElement.value;
+        	if (!isNaN(inputValue)) {
+            	localStorage.setItem('userInput', inputValue);
+        	} else {
+            	alert('Please enter a valid number');
+        	}
+    	});
+		</script>
     </body>
 </html>

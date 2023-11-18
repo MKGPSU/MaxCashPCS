@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Budget Tracker</title>
+        <title>Per Diem Budget</title>
         <style>
             body {
                 background-color: green;
@@ -24,7 +24,7 @@
 		<p>Enter Per Diem Rate:</p>
         <input type="number" id="perDiemRate" onchange="updateRemainingBudget()">
         <p>Enter Total Expenses:</p>
-		<input type="number" id="spentAmountPD" onchange="updateRemainingBudget()">
+		<input type="number" id="spentAmountPD">
         <button onclick="addExpense()">Add Expense</button>
         <button onclick="removeExpense()">Remove Expense</button>
 		<button onclick="clearData()">Clear</button>
@@ -37,61 +37,86 @@
                 window.location.href = "Homepage.html";
             }
             
-            function addExpense() {
-                const spentAmount = document.getElementById("spentAmountPD");
-                const totalExpenses = document.getElementById("totalExpensesPD");
-                const remainingBudget = document.getElementById("remainingBudgetPD");
-                
-                const expense = Number(spentAmount.value);
-                const total = Number(totalExpenses.textContent);
-                const remaining = Number(remainingBudget.textContent);
-                
-                totalExpenses.textContent = total + expense;
-                remainingBudget.textContent = remaining - expense;
-                
-                spentAmount.value = "";
-				localStorage.setItem('totalExpensesPD', totalExpenses);
-            }
+function addExpense() {
+    const spentAmount = document.getElementById("spentAmountPD");
+    const totalExpenses = document.getElementById("totalExpensesPD");
+    const remainingBudget = document.getElementById("remainingBudgetPD");
+    const expense = Number(spentAmount.value);
+
+    if (isNaN(expense) || expense < 0) {
+        alert("Please enter a valid number for the expense.");
+        return;
+    }
+
+    const total = Number(totalExpenses.textContent);
+    const remaining = Number(remainingBudget.textContent);
+    totalExpenses.textContent = total + expense;
+    remainingBudget.textContent = remaining - expense;
+    spentAmount.value = "";
+    localStorage.setItem('totalExpensesPD', totalExpenses.textContent);
+    localStorage.setItem('remainingBudgetPD', remainingBudget.textContent);
+	updateRemainingBudget();
+}
             
-            function removeExpense() {
-                const spentAmount = document.getElementById("spentAmountPD");
-                const totalExpenses = document.getElementById("totalExpensesPD");
-                const remainingBudget = document.getElementById("remainingBudgetPD");
-                
-                const expense = Number(spentAmount.value);
-                const total = Number(totalExpenses.textContent);
-                const remaining = Number(remainingBudget.textContent);
-                
-                totalExpenses.textContent = total - expense;
-                remainingBudget.textContent = remaining + expense;
-                
-                spentAmount.value = "";
-            }
+function removeExpense() {
+    const spentAmount = document.getElementById("spentAmountPD");
+    const totalExpenses = document.getElementById("totalExpensesPD");
+    const remainingBudget = document.getElementById("remainingBudgetPD");
+    const expense = Number(spentAmount.value);
+
+    if (isNaN(expense) || expense < 0) {
+        alert("Please enter a valid number for the expense.");
+        return;
+    }
+
+    const total = Number(totalExpenses.textContent);
+    const remaining = Number(remainingBudget.textContent);
+    totalExpenses.textContent = total - expense;
+    remainingBudget.textContent = remaining + expense;
+    spentAmount.value = "";
+    localStorage.setItem('remainingBudgetPD', remainingBudget.textContent);
+	updateRemainingBudget();
+}
             
-            function updateRemainingBudget() {
-                const perDiemRate = document.getElementById("perDiemRate");
-                const totalExpenses = document.getElementById("totalExpensesPD");
-                const remainingBudget = document.getElementById("remainingBudgetPD");
-                
-                const perDiem = Number(perDiemRate.value);
-                const total = Number(totalExpenses.textContent);
-                
-                remainingBudget.textContent = perDiem - total;
-				localStorage.setItem('remainingBudgetPD', remainingBudget);
-            }
+function updateRemainingBudget() {
+    const perDiemRate = document.getElementById("perDiemRate");
+    const totalExpenses = document.getElementById("totalExpensesPD");
+    const remainingBudget = document.getElementById("remainingBudgetPD");
+    const perDiem = Number(perDiemRate.value);
+
+    if (isNaN(perDiem) || perDiem < 0) {
+        alert("Please enter a valid number for the per diem rate.");
+        return;
+    }
+
+    const total = Number(totalExpenses.textContent);
+    const remaining = perDiem - total;
+    localStorage.setItem('remainingBudgetPD', remaining);
+    localStorage.setItem('perDiemRate', perDiemRate.value);
+    const remainingPercentage = (remaining / perDiem) * 100;
+    remainingBudget.innerText = `${remainingPercentage.toFixed(2)}% ($${remaining} out of $${perDiem})`;
+	localStorage.setItem('remainingBudgetPercentage2', remainingPercentage.toFixed(2));
+}
 		
 			window.onload = function() {
-    			totalExpenses = Number(localStorage.getItem('totalExpensesPD')) || 0;
-    			remainingBudget = Number(localStorage.getItem('remainingBudgetPD')) || 0;
-    			totalExpensesElement.innerText = totalExpenses;
-    			remainingBudgetElement.innerText = remainingBudget;
+    			const totalExpensesElement = document.getElementById("totalExpensesPD");
+    			const remainingBudgetElement = document.getElementById("remainingBudgetPD");
+				const perDiemRate = document.getElementById("perDiemRate");
+    			totalExpensesElement.textContent = Number(localStorage.getItem('totalExpensesPD')) || 0;
+    			remainingBudgetElement.textContent = Number(localStorage.getItem('remainingBudgetPD')) || 0;
+    			perDiemRate.value = Number(localStorage.getItem('perDiemRate')) || 0;
 			}
 		
 			function clearData() {
-    			totalExpenses = 0;
-    			remainingBudget = 0;
-    			totalExpensesElement.innerText = totalExpenses;
-    			remainingBudgetElement.innerText = remainingBudget;
+				
+    			if (!confirm("Are you sure you want to clear all data?")) {
+        		return;
+    			}
+    
+    			const totalExpensesElement = document.getElementById("totalExpensesPD");
+    			const remainingBudgetElement = document.getElementById("remainingBudgetPD");
+    			totalExpensesElement.textContent = 0;
+    			remainingBudgetElement.textContent = 0;
     			localStorage.removeItem('totalExpensesPD');
     			localStorage.removeItem('remainingBudgetPD');
 			}
